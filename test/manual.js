@@ -31,4 +31,58 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout.Squat, 'parsed squat set').to.have.length(2);
         done();
     });
+
+    lab.test('Comma separator', function (done) {
+        var workout = caber.parse('Squat 135x5,200x3 Bench Press 123x10x3');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat', 'Bench Press');
+        Lab.expect(workout.Squat, 'parsed squat set').to.have.length(2);
+        Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
+        Lab.expect(workout.Squat[0].reps, 'first squat set reps').to.equal(5);
+        Lab.expect(workout.Squat[1].weight, 'second squat set weight').to.equal(200);
+        Lab.expect(workout.Squat[1].reps, 'second squat set reps').to.equal(3);
+        done();
+    });
+
+    lab.test('Reps no weight', function (done) {
+        var workout = caber.parse('Pull ups 5, 5, 5');
+        Lab.expect(workout, 'parsed results').to.include.keys('Pull ups');
+        Lab.expect(workout['Pull ups'], 'parsed pull ups results').to.have.length(3);
+        Lab.expect(workout['Pull ups'][0].reps, 'first pull ups set reps').to.equal(5);
+        Lab.expect(workout['Pull ups'][0].weight, 'first pull ups set weight').to.be.undefined;
+        Lab.expect(workout['Pull ups'][0].unit, 'first pull ups set unit').to.be.undefined;
+        done();
+    });
+
+    lab.test('PR star', function (done) {
+        var workout = caber.parse('Deadlift 450x5, 500x1*');
+        Lab.expect(workout, 'parsed results').to.include.keys('Deadlift');
+        Lab.expect(workout.Deadlift, 'parsed deadlift set').to.have.length(2);
+        Lab.expect(workout.Deadlift[1].pr, 'second deadlift set pr').to.be.true;
+        done();
+    });
+
+    lab.test('PR on last set only', function (done) {
+        var workout = caber.parse('OHP 185x1x2*');
+        Lab.expect(workout, 'parsed results').to.include.keys('OHP');
+        Lab.expect(workout.OHP, 'parsed OHP results').to.have.length(2);
+        Lab.expect(workout.OHP[0].pr, 'first OHP set pr').to.not.be.true;
+        Lab.expect(workout.OHP[1].pr, 'second OHP set pr').to.be.true;
+        done();
+    });
+
+    lab.test('parse non strings', function (done) {
+        Lab.expect(function () {
+            var workout = caber.parse();
+        }).to.throw(TypeError);
+        Lab.expect(function () {
+            var workout = caber.parse(5);
+        }).to.throw(TypeError);
+        Lab.expect(function () {
+            var workout = caber.parse(undefined);
+        }).to.throw(TypeError);
+        Lab.expect(function () {
+            var workout = caber.parse(null);
+        }).to.throw(TypeError);
+        done();
+    });
 });

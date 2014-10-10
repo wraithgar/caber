@@ -33,9 +33,9 @@
         var rep, buffer, nextWord, currentActivity, newActivity, weightReps;
         var parsed = {};
         if (typeof data !== 'string') {
-            throw new Error('Caber can only parse strings, tried parsing ' + typeof data);
+            throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
         }
-        buffer = data.split(/\s+/);
+        buffer = data.split(/[\s,]+/);
 
         while (buffer.length > 0) {
             nextWord = buffer.shift();
@@ -53,7 +53,14 @@
                 newActivity = true;
                 weightReps = nextWord.toLowerCase().replace(/[^0-9x]+/g, '').split('x');
                 for (rep = 0; rep < (weightReps[2] || 1); rep++) {
-                    parsed[currentActivity].push({unit: 'lb', weight: Number(weightReps[0]), reps: Number(weightReps[1])});
+                    if (weightReps.length === 1) {
+                        parsed[currentActivity].push({reps: Number(weightReps[0])});
+                    } else {
+                        parsed[currentActivity].push({unit: 'lb', weight: Number(weightReps[0]), reps: Number(weightReps[1])});
+                    }
+                }
+                if (nextWord.slice(-1) === '*') {
+                    parsed[currentActivity][parsed[currentActivity].length -1].pr = true;
                 }
             }
         }
