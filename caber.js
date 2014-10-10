@@ -1,6 +1,6 @@
 // Caber.js
 // (c) 2014 Michael Garvin
-// Ambit may be freely distributed under the MIT license.
+// Caber may be freely distributed under the MIT license.
 //
 (function () {
     // Establish the root object, `window` in the browser, or `exports` on the server.
@@ -46,7 +46,7 @@
                     currentActivity = nextWord;
                 }
                 newActivity = false;
-            } else {
+            } else if (currentActivity) {
                 if (!parsed[currentActivity]) {
                     parsed[currentActivity] = [];
                 }
@@ -61,3 +61,5 @@
     };
 
 }).call(this);
+
+//TODO Strip leading/trailing punctuation from activity name

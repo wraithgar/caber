@@ -18,4 +18,17 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout['Bench Press'][0].weight, 'first bench press set reps').to.equal(100);
         done();
     });
+
+    lab.test('Empty string', function (done) {
+        var workout = caber.parse('');
+        Lab.expect(workout, 'parsed results').to.be.empty;
+        done();
+    });
+
+    lab.test('Newline separator', function (done) {
+        var workout = caber.parse('Squat 135x5, 200x3\nBench Press 123x10x3');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat', 'Bench Press');
+        Lab.expect(workout.Squat, 'parsed squat set').to.have.length(2);
+        done();
+    });
 });
