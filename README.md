@@ -39,7 +39,7 @@ This would output
 If a given entry is a PR, end it with an astersk (\*) and it will be
 tagged as such
 
-```json
+```javascript
 var workout = caber.parse('Deadlift 450x5, 500x1*');
 console.log(workout);
 ```
@@ -47,9 +47,9 @@ console.log(workout);
 ```json
 {
     "Deadlift": [
-        {"reps": 5, "weight": 450, "unit": "lb"}
+        {"reps": 5, "weight": 450, "unit": "lb"},
         {"reps": 1, "weight": 500, "unit": "lb", "pr": true}
-    }
+    ]
 }
 ```
 
