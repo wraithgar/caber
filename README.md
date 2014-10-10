@@ -47,7 +47,7 @@ console.log(workout);
 ```json
 {
     "Deadlift": [
-        {"reps": 5, "weight": 450, "unit": "lb"}
+        {"reps": 5, "weight": 450, "unit": "lb"},
         {"reps": 1, "weight": 500, "unit": "lb", "pr": true}
     }
 }
