@@ -85,4 +85,18 @@ lab.experiment('Main Parse', function () {
         }).to.throw(TypeError);
         done();
     });
+
+    lab.test('fitocracy copy/paste', function (done) {
+        var fito = 'Gartracked Workout for 1000ptsOct 9, 2014\nCurls\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\nHammer Curls\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135lb x 10 reps 25\nDB Curls\n25 lb x 10 reps 57\n25 lb x 10 reps 57\n25 lb x 10 reps (PR) 57';
+        var workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Curls', 'Hammer Curls', 'DB Curls');
+        Lab.expect(workout.Curls, 'parsed curls result').to.have.length(5);
+        Lab.expect(workout['Hammer Curls'], 'parsed hammer curls result').to.have.length(4);
+        Lab.expect(workout['DB Curls'], 'parsed db curls result').to.have.length(3);
+        Lab.expect(workout.Curls[0].weight, 'first curls set weight').to.equal(15);
+        Lab.expect(workout.Curls[0].reps, 'first curls set weight').to.equal(10);
+        Lab.expect(workout.Curls[0].unit, 'first curls set weight').to.equal('lb');
+        Lab.expect(workout['DB Curls'][2].pr, 'third db curls set pr').to.be.true;
+        done();
+    });
 });

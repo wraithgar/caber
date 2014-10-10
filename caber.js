@@ -67,6 +67,43 @@
         return parsed;
     };
 
+    //Parse from copied fitocracy data
+    Caber.fitocracy = function (data) {
+        var lines, line, currentActivity, set, match;
+        var parsed = {};
+        if (typeof data !== 'string') {
+            throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
+        }
+        lines = data.split(/\n/);
+
+        while (lines.length > 0) {
+            line = lines.shift();
+            if (line.match(/tracked ?Workout ?for ?[0-9]+ ?pts/)) {
+                //Header, ignore for now, use as title when we add title
+            } else if (line.match(/[0-9]+$/)) { //Sets always end with a number in points, phew
+                set = {};
+                if (line.match(/\(PR\)/)) {
+                    set.pr = true;
+                }
+                match = line.match(/([0-9]+) (lb|kg)/);
+                if (match) {
+                    set.weight = Number(match[1]);
+                    set.unit = match[2];
+                }
+                match = line.match(/([0-9]+) reps/);
+                if (match) {
+                    set.reps = Number(match[1]);
+                }
+                parsed[currentActivity].push(set);
+            } else if (line.length > 0) { //New activity
+                //currentActivity = line.replace(/\s+$/g, '');
+                currentActivity = line;
+                parsed[currentActivity] = [];
+            }
+        }
+        return parsed;
+    };
+
 }).call(this);
 
 //TODO Strip leading/trailing punctuation from activity name

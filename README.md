@@ -52,3 +52,41 @@ console.log(workout);
     }
 }
 ```
+
+
+If you use fitocracy you can copy and paste from that site and pass it
+to `fitocracy`, it mostly works (cardio stuff generally doesn't)
+
+```javascript
+var caber = require('caber');
+
+var pasteFromFitocracy = 'Gartracked Workout for 1000ptsOct 9, 2014\nCurls\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\nHammer Curls\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135lb x 10 reps 25\nDB Curls\n25 lb x 10 reps 57\n25 lb x 10 reps 57\n25 lb x 10 reps (PR) 57';
+var workout = caber.fitocracy(pasteFromFitocracy);
+
+console.log('workout');
+```
+
+This would output
+
+```json
+{
+     "Curls": [
+        { "weight": 15, "unit": 'lb', "reps": 10' },
+        { "weight": '15', "unit": 'lb', "reps": '10' },
+        { "weight": '15', "unit": 'lb', "reps": '10' },
+        { "weight": '15', "unit": 'lb', "reps": '10' },
+        { "weight": '15', "unit": 'lb', "reps": '10' }
+     ],
+    "Hammer Curls": [
+        { "weight": '135', "unit": 'lb', "reps": '10' },
+        { "weight": '135', "unit": 'lb', "reps": '10' },
+        { "weight": '135', "unit": 'lb', "reps": '10' },
+        { "reps": '10' }
+     ],
+    "DB Curls": [
+         { "weight": '25', "unit": 'lb', "reps": '10' },
+        { "weight": '25', "unit": 'lb', "reps": '10' },
+        { pr: true, "weight": '25', "unit": 'lb', "reps": '10' }
+     ]
+ }
+```
