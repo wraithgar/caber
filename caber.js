@@ -39,7 +39,7 @@
 
         while (buffer.length > 0) {
             nextWord = buffer.shift();
-            if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) {
+            if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) { //Number
                 if (currentActivity && !newActivity) {
                     currentActivity = currentActivity + ' ' + nextWord;
                 } else {
@@ -47,6 +47,9 @@
                 }
                 newActivity = false;
             } else if (currentActivity) {
+                if (buffer.length >1 && buffer[0].toLowerCase() === 'x') {
+                    nextWord = nextWord + buffer.shift() + buffer.shift();
+                }
                 if (!parsed[currentActivity]) {
                     parsed[currentActivity] = [];
                 }
@@ -95,8 +98,7 @@
                     set.reps = Number(match[1]);
                 }
                 parsed[currentActivity].push(set);
-            } else if (line.length > 0) { //New activity
-                //currentActivity = line.replace(/\s+$/g, '');
+            } else if (line.length > 0) {
                 currentActivity = line;
                 parsed[currentActivity] = [];
             }
