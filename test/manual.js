@@ -43,8 +43,18 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
-    lab.test('Space between weight/reps', function (done) {
+    lab.test('Spaces between weight/reps', function (done) {
         var workout = caber.parse('Squat 135 x 5');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat');
+        Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
+        Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
+        Lab.expect(workout.Squat[0].reps, 'first squat set reps').to.equal(5);
+        var workout = caber.parse('Squat 135x 5');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat');
+        Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
+        Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
+        Lab.expect(workout.Squat[0].reps, 'first squat set reps').to.equal(5);
+        var workout = caber.parse('Squat 135 x5');
         Lab.expect(workout, 'parsed results').to.include.keys('Squat');
         Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
         Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);

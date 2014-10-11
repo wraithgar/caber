@@ -47,8 +47,12 @@
                 }
                 newActivity = false;
             } else if (currentActivity) {
-                if (buffer.length >1 && buffer[0].toLowerCase() === 'x') {
+                if (buffer.length > 1 && buffer[0].toLowerCase() === 'x') {
                     nextWord = nextWord + buffer.shift() + buffer.shift();
+                } else if (buffer.length > 0 && nextWord.slice(-1).toLowerCase() === 'x') {
+                    nextWord = nextWord + buffer.shift();
+                } else if (buffer.length > 0 && buffer[0].slice(0, 1).toLowerCase() === 'x') {
+                    nextWord = nextWord + buffer.shift();
                 }
                 if (!parsed[currentActivity]) {
                     parsed[currentActivity] = [];
