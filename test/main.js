@@ -88,6 +88,17 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
+    lab.test('PR on time/distance', function (done) {
+        var workout = caber.parse('Cycling 1:00 5 miles*');
+        Lab.expect(workout, 'parsed results').to.include.keys('Cycling');
+        Lab.expect(workout.Cycling, 'parsed cycling result').to.have.length(1);
+        Lab.expect(workout.Cycling[0].pr, 'parsed cycling pr').to.be.true;
+        Lab.expect(workout.Cycling[0].time, 'parsed cycling time').to.equal('1:00');
+        Lab.expect(workout.Cycling[0].distance, 'parsed cycling distance').to.equal(5);
+        Lab.expect(workout.Cycling[0].unit, 'parsed cycling distance').to.equal('miles');
+        done();
+    });
+
     lab.test('Trailing newline', function (done) {
         var workout = caber.parse('Squat 100x5x4 ');
         Lab.expect(workout, 'parsed results').to.include.keys('Squat');

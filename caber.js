@@ -30,7 +30,7 @@
 
     //Main parser
     Caber.parse = function (data) {
-        var set, sets, setData, buffer, nextWord, currentActivity, newActivity, activityInfo;
+        var set, sets, setData, buffer, nextWord, currentActivity, newActivity, activityInfo, pr;
         var parsed = {};
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
@@ -64,6 +64,12 @@
                 } else if (nextWord === '') {
                     sets = 0;
                 } else {
+                    if (nextWord.slice(-1) === '*') {
+                        pr = true;
+                        nextWord = nextWord.slice(0, -1);
+                    } else {
+                        pr = false;
+                    }
                     activityInfo = nextWord.toLowerCase().replace(/[^0-9x:]+/g, '').split('x');
                     sets = activityInfo[2] || 1;
                 }
@@ -72,9 +78,13 @@
                     if (activityInfo.length === 1) {
                         if (activityInfo[0].indexOf(':') > -1) {
                             setData.time = activityInfo[0];
-                            if (buffer.length > 1 && ['miles', 'mi', 'kilometers', 'km'].indexOf(buffer[1]) > -1) { //If the word after next is a distance
+                            if (buffer.length > 1 && ['miles', 'mi', 'kilometers', 'km', 'miles*', 'mi*', 'kilometers*', 'km*'].indexOf(buffer[1]) > -1) { //If the word after next is a distance
                                 setData.distance = Number(buffer.shift());
                                 setData.unit = buffer.shift();
+                                if (setData.unit.slice(-1) === '*') {
+                                    pr = true;
+                                    setData.unit = setData.unit.slice(0, -1);
+                                }
                             }
                         } else {
                             setData.reps = Number(activityInfo[0]);
@@ -86,7 +96,7 @@
                     }
                     parsed[currentActivity].push(setData);
                 }
-                if (nextWord.slice(-1) === '*') {
+                if (pr) {
                     parsed[currentActivity][parsed[currentActivity].length -1].pr = true;
                 }
             }
