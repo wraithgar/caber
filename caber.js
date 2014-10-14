@@ -30,7 +30,7 @@
 
     //Main parser
     Caber.parse = function (data) {
-        var rep, buffer, nextWord, currentActivity, newActivity, weightReps;
+        var set, sets, setData, buffer, nextWord, currentActivity, newActivity, activityInfo;
         var parsed = {};
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
@@ -47,24 +47,42 @@
                 }
                 newActivity = false;
             } else if (currentActivity) {
-                if (buffer.length > 1 && buffer[0].toLowerCase() === 'x') {
+                if (buffer.length > 1 && buffer[0].toLowerCase() === 'x') { //If the next word is 'x' and there's more after that
                     nextWord = nextWord + buffer.shift() + buffer.shift();
-                } else if (buffer.length > 0 && nextWord.slice(-1).toLowerCase() === 'x') {
+                } else if (buffer.length > 0 && nextWord.slice(-1).toLowerCase() === 'x') { // if we have more data and currently end in x
                     nextWord = nextWord + buffer.shift();
-                } else if (buffer.length > 0 && buffer[0].slice(0, 1).toLowerCase() === 'x') {
+                } else if (buffer.length > 0 && buffer[0].slice(0, 1).toLowerCase() === 'x') { // if the next word starts with x
                     nextWord = nextWord + buffer.shift();
                 }
                 if (!parsed[currentActivity]) {
                     parsed[currentActivity] = [];
                 }
                 newActivity = true;
-                weightReps = nextWord.toLowerCase().replace(/[^0-9x]+/g, '').split('x');
-                for (rep = 0; rep < (weightReps[2] || 1); rep++) {
-                    if (weightReps.length === 1) {
-                        parsed[currentActivity].push({reps: Number(weightReps[0])});
+                if (nextWord.indexOf(':') > -1) {
+                    sets = 1;
+                    activityInfo = [nextWord];
+                } else {
+                    activityInfo = nextWord.toLowerCase().replace(/[^0-9x:]+/g, '').split('x');
+                    sets = activityInfo[2] || 1;
+                }
+                for (set = 0; set < sets; set++) {
+                    setData = {};
+                    if (activityInfo.length === 1) {
+                        if (activityInfo[0].indexOf(':') > -1) {
+                            setData.time = activityInfo[0];
+                            if (buffer.length > 1 && ['miles', 'mi', 'kilometers', 'km'].indexOf(buffer[1]) > -1) { //If the word after next is a distance
+                                setData.distance = Number(buffer.shift());
+                                setData.unit = buffer.shift();
+                            }
+                        } else {
+                            setData.reps = Number(activityInfo[0]);
+                        }
                     } else {
-                        parsed[currentActivity].push({unit: 'lb', weight: Number(weightReps[0]), reps: Number(weightReps[1])});
+                        setData.unit = 'lb';
+                        setData.weight = Number(activityInfo[0]);
+                        setData.reps = Number(activityInfo[1]);
                     }
+                    parsed[currentActivity].push(setData);
                 }
                 if (nextWord.slice(-1) === '*') {
                     parsed[currentActivity][parsed[currentActivity].length -1].pr = true;
@@ -76,7 +94,7 @@
 
     //Parse from copied fitocracy data
     Caber.fitocracy = function (data) {
-        var lines, line, currentActivity, set, match;
+        var lines, line, currentActivity, setData, match;
         var parsed = {};
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
@@ -87,21 +105,35 @@
             line = lines.shift();
             if (line.match(/tracked ?Workout ?for ?[0-9]+ ?pts/)) {
                 //Header, ignore for now, use as title when we add title
-            } else if (line.match(/[0-9]+$/)) { //Sets always end with a number in points, phew
-                set = {};
+            //Sets always end with a number in points, except for the last one, also check that they didn't copy the line after the workout
+            } else if (line.match(/[0-9]+$/) || (lines.length === 0 && ['Comment', 'Prop', 'Share'].indexOf(line) === -1 )) {
+                setData = {};
                 if (line.match(/\(PR\)/)) {
-                    set.pr = true;
+                    setData.pr = true;
                 }
-                match = line.match(/([0-9]+) (lb|kg)/);
-                if (match) {
-                    set.weight = Number(match[1]);
-                    set.unit = match[2];
+                if (line.match(/reps/)) {
+                    match = line.match(/([0-9]+) (lb|kg)/);
+                    if (match) {
+                        setData.weight = Number(match[1]);
+                        setData.unit = match[2];
+                    }
+                    match = line.match(/([0-9]+) reps/);
+                    if (match) {
+                        setData.reps = Number(match[1]);
+                    }
+                    if (line.match(/assisted/)) {
+                        setData.weight = setData.weight * -1;
+                    }
+                    parsed[currentActivity].push(setData);
+                } else if (line.indexOf(':') > -1) { //Time/Distance
+                    match = line.match(/([0-9:]+) \| ([0-9]+) (mi|km)/);
+                    if (match) {
+                        setData.unit = match[3];
+                        setData.time = match[1];
+                        setData.distance = Number(match[2]);
+                        parsed[currentActivity].push(setData);
+                    }
                 }
-                match = line.match(/([0-9]+) reps/);
-                if (match) {
-                    set.reps = Number(match[1]);
-                }
-                parsed[currentActivity].push(set);
             } else if (line.length > 0) {
                 currentActivity = line;
                 parsed[currentActivity] = [];

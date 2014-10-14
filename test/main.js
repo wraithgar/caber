@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
 var caber = require('../');
@@ -5,8 +6,8 @@ var caber = require('../');
 lab.experiment('Main Parse', function () {
 
     lab.test('README example', function (done) {
-        var workout = caber.parse('Squat 135x5,  200x3, 225x4. Bench Press 100x9x4');
-        Lab.expect(workout, 'parsed results').to.include.keys('Squat', 'Bench Press');
+        var workout = caber.parse('Squat 135x5,  200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat', 'Bench Press', 'Cycling');
         Lab.expect(workout.Squat, 'parsed squat sets').to.have.length(3);
         Lab.expect(workout['Bench Press'], 'parsed bench press sets').to.have.length(4);
         Lab.expect(workout.Squat[0], 'first squat set').to.include.keys('unit', 'weight', 'reps');
@@ -16,12 +17,10 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout['Bench Press'][0], 'first bench press set').to.include.keys('unit', 'weight', 'reps');
         Lab.expect(workout['Bench Press'][0].reps, 'first bench press set reps').to.equal(9);
         Lab.expect(workout['Bench Press'][0].weight, 'first bench press set reps').to.equal(100);
-        done();
-    });
-
-    lab.test('Empty string', function (done) {
-        var workout = caber.parse('');
-        Lab.expect(workout, 'parsed results').to.be.empty;
+        Lab.expect(workout.Cycling, 'parsed cycling sets').to.have.length(1);
+        Lab.expect(workout.Cycling[0].time, 'parsed cycling time').to.equal('1:30:00');
+        Lab.expect(workout.Cycling[0].unit, 'parsed cycling unit').to.equal('miles');
+        Lab.expect(workout.Cycling[0].distance, 'parsed cycling distance').to.equal(15);
         done();
     });
 
@@ -49,12 +48,12 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
         Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
         Lab.expect(workout.Squat[0].reps, 'first squat set reps').to.equal(5);
-        var workout = caber.parse('Squat 135x 5');
+        workout = caber.parse('Squat 135x 5');
         Lab.expect(workout, 'parsed results').to.include.keys('Squat');
         Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
         Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
         Lab.expect(workout.Squat[0].reps, 'first squat set reps').to.equal(5);
-        var workout = caber.parse('Squat 135 x5');
+        workout = caber.parse('Squat 135 x5');
         Lab.expect(workout, 'parsed results').to.include.keys('Squat');
         Lab.expect(workout.Squat, 'parsed squat results').to.have.length(1);
         Lab.expect(workout.Squat[0].weight, 'first squat set weight').to.equal(135);
@@ -89,33 +88,5 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
-    lab.test('parse non strings', function (done) {
-        Lab.expect(function () {
-            var workout = caber.parse();
-        }).to.throw(TypeError);
-        Lab.expect(function () {
-            var workout = caber.parse(5);
-        }).to.throw(TypeError);
-        Lab.expect(function () {
-            var workout = caber.parse(undefined);
-        }).to.throw(TypeError);
-        Lab.expect(function () {
-            var workout = caber.parse(null);
-        }).to.throw(TypeError);
-        done();
-    });
-
-    lab.test('fitocracy copy/paste', function (done) {
-        var fito = 'Gartracked Workout for 1000ptsOct 9, 2014\nCurls\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\nHammer Curls\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135lb x 10 reps 25\nDB Curls\n25 lb x 10 reps 57\n25 lb x 10 reps 57\n25 lb x 10 reps (PR) 57';
-        var workout = caber.fitocracy(fito);
-        Lab.expect(workout, 'parsed results').to.include.keys('Curls', 'Hammer Curls', 'DB Curls');
-        Lab.expect(workout.Curls, 'parsed curls result').to.have.length(5);
-        Lab.expect(workout['Hammer Curls'], 'parsed hammer curls result').to.have.length(4);
-        Lab.expect(workout['DB Curls'], 'parsed db curls result').to.have.length(3);
-        Lab.expect(workout.Curls[0].weight, 'first curls set weight').to.equal(15);
-        Lab.expect(workout.Curls[0].reps, 'first curls set weight').to.equal(10);
-        Lab.expect(workout.Curls[0].unit, 'first curls set weight').to.equal('lb');
-        Lab.expect(workout['DB Curls'][2].pr, 'third db curls set pr').to.be.true;
-        done();
-    });
 });
+
