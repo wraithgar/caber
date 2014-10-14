@@ -88,5 +88,12 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
+    lab.test('Trailing newline', function (done) {
+        var workout = caber.parse('Squat 100x5x4 ');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat');
+        Lab.expect(workout.Squat, 'parsed squat results').to.have.length(4);
+        done();
+    });
+
 });
 

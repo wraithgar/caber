@@ -35,7 +35,7 @@
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
         }
-        buffer = data.split(/[\s,]+/);
+        buffer = data.split(/[\s,\n]+/);
 
         while (buffer.length > 0) {
             nextWord = buffer.shift();
@@ -61,6 +61,8 @@
                 if (nextWord.indexOf(':') > -1) {
                     sets = 1;
                     activityInfo = [nextWord];
+                } else if (nextWord === '') {
+                    sets = 0;
                 } else {
                     activityInfo = nextWord.toLowerCase().replace(/[^0-9x:]+/g, '').split('x');
                     sets = activityInfo[2] || 1;
