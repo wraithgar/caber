@@ -38,4 +38,52 @@ lab.experiment('Fitocracy parse', function () {
         done();
     });
 
+    lab.test('copied too much', function (done) {
+        var fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment\nProp\nShare\n';
+        var workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment\nProp\nShare';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment\nProp\n';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment\nProp';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment\n';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\nComment';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        Lab.expect(workout, 'parsed results').to.not.include.keys('Comment', 'Prop', 'Share');
+
+        done();
+    });
+
+    lab.test('trailing newline', function (done) {
+        var fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Bench Press\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n55 lb x 10 reps 60\n';
+        var workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.include.keys('Barbell Bench Press');
+        Lab.expect(workout['Barbell Bench Press'], 'parsed barbell bench press result').to.have.length(3);
+        done();
+    });
+
 });

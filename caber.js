@@ -146,7 +146,7 @@
                         parsed[currentActivity].push(setData);
                     }
                 }
-            } else if (line.length > 0) {
+            } else if (line.length > 0 && ['Comment', 'Prop', 'Share'].indexOf(line) === -1 ) {
                 currentActivity = line;
                 parsed[currentActivity] = [];
             }
