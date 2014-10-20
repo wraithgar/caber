@@ -6,6 +6,8 @@
     // Establish the root object, `window` in the browser, or `exports` on the server.
     var root = this;
 
+    var distanceUnits = /(mi|kilometer|km)/;
+
     // Create a safe reference to the Caber object for use below.
     var Caber = function (obj) {
         if (obj instanceof Caber) {
@@ -78,12 +80,24 @@
                     if (activityInfo.length === 1) {
                         if (activityInfo[0].indexOf(':') > -1) {
                             setData.time = activityInfo[0];
-                            if (buffer.length > 1 && ['miles', 'mi', 'kilometers', 'km', 'miles*', 'mi*', 'kilometers*', 'km*'].indexOf(buffer[1]) > -1) { //If the word after next is a distance
+                            if (buffer.length > 0 && buffer[0].search(/^.?[0-9]/) > -1 && buffer[0].search(distanceUnits) > -1) { //If the next word has a distance unit
+                                setData.distance = Number(buffer[0].match(/^([0-9.]+)/)[0]);
+                                if (buffer[0].indexOf('mi') > -1) {
+                                    setData.unit = 'miles';
+                                } else {
+                                    setData.unit = 'kilometers';
+                                }
+                            } else if (buffer.length > 1 && buffer[1].search(distanceUnits) > -1) { //If the word after next is a distance
                                 setData.distance = Number(buffer.shift());
                                 setData.unit = buffer.shift();
                                 if (setData.unit.slice(-1) === '*') {
                                     pr = true;
                                     setData.unit = setData.unit.slice(0, -1);
+                                }
+                                if (setData.unit.indexOf('kilometer') === 0 || setData.unit === 'km') {
+                                    setData.unit = 'kilometers';
+                                } else if (setData.unit.indexOf('mi') === 0) {
+                                    setData.unit = 'miles';
                                 }
                             }
                         } else {

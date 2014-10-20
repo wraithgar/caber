@@ -106,5 +106,26 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
+    lab.test('No space on distance', function (done) {
+        var workout = caber.parse('Cycling 3:00 35km');
+        Lab.expect(workout, 'parsed results').to.include.keys('Cycling');
+        Lab.expect(workout.Cycling, 'parsed cycling result').to.have.length(1);
+        Lab.expect(workout.Cycling[0].time, 'parsed cycling time').to.equal('3:00');
+        Lab.expect(workout.Cycling[0].distance, 'parsed cycling distance').to.equal(35);
+        Lab.expect(workout.Cycling[0].unit, 'parsed cycling distance').to.equal('kilometers');
+        workout = caber.parse('Cycling 3:00 35.4mi');
+        Lab.expect(workout, 'parsed results').to.include.keys('Cycling');
+        Lab.expect(workout.Cycling, 'parsed cycling result').to.have.length(1);
+        Lab.expect(workout.Cycling[0].distance, 'parsed cycling distance').to.equal(35.4);
+        Lab.expect(workout.Cycling[0].unit, 'parsed cycling distance').to.equal('miles');
+        workout = caber.parse('Cycling 00:30 .5mi');
+        Lab.expect(workout, 'parsed results').to.include.keys('Cycling');
+        Lab.expect(workout.Cycling, 'parsed cycling result').to.have.length(1);
+        Lab.expect(workout.Cycling[0].time, 'parsed cycling time').to.equal('00:30');
+        Lab.expect(workout.Cycling[0].distance, 'parsed cycling distance').to.equal(0.5);
+        Lab.expect(workout.Cycling[0].unit, 'parsed cycling distance').to.equal('miles');
+        done();
+    });
+
 });
 
