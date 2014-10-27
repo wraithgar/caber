@@ -60,6 +60,7 @@
                     parsed[currentActivity] = [];
                 }
                 newActivity = true;
+                pr = false;
                 if (nextWord.indexOf(':') > -1) {
                     sets = 1;
                     activityInfo = [nextWord];
@@ -69,8 +70,6 @@
                     if (nextWord.slice(-1) === '*') {
                         pr = true;
                         nextWord = nextWord.slice(0, -1);
-                    } else {
-                        pr = false;
                     }
                     activityInfo = nextWord.toLowerCase().replace(/[^0-9x:]+/g, '').split('x');
                     sets = activityInfo[2] || 1;

@@ -127,5 +127,15 @@ lab.experiment('Main Parse', function () {
         done();
     });
 
+    lab.test('No double PR switching from weight to distance activity', function (done) {
+        var workout = caber.parse('Squat 255x10x4\nBench 135x4x5*\nCycling 1:00 5 miles');
+        Lab.expect(workout, 'parsed results').to.include.keys('Squat', 'Bench', 'Cycling');
+        Lab.expect(workout.Bench, 'parsed bench result').to.have.length(5);
+        Lab.expect(workout.Bench[4].pr, 'Last parsed bench set pr').to.be.true;
+        Lab.expect(workout.Cycling, 'parsed cycling result').to.have.length(1);
+        Lab.expect(workout.Cycling[0].pr, 'Parsed cycling result pr').to.not.be.true;
+        done();
+    });
+
 });
 
