@@ -83,4 +83,13 @@ lab.experiment('Fitocracy parse', function () {
         Lab.expect(workout[0].sets, 'sets').to.have.length(3);
         done();
     });
+
+    lab.test('comments', function (done) {
+        var fito = 'Gartracked Workout for 1,337 ptsJan 1, 2014\nBarbell Squat\n185 lb x 5 reps 92\n225 lb x 5 reps 121\n265 lb x 5 reps 158\n295 lb x 5 reps 194\n335 lb x 4 reps 232\nthis is a comment\nBarbell Bench Press\n185 lb x 5 reps 92\n';
+        var workout = caber.fitocracy(fito);
+        Lab.expect(workout, 'parsed results').to.have.length(2);
+        Lab.expect(workout[1].name, 'second entry name').to.equal('Barbell Bench Press');
+        Lab.expect(workout[0].comment, 'first entry comment').to.equal('this is a comment');
+        done();
+    });
 });

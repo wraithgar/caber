@@ -34,6 +34,7 @@
     Caber.parse = function (data) {
         var set, sets, setData, buffer, nextWord, currentActivity, newActivity, activityInfo, pr;
         var currentIndex = -1;
+        var currentComment = false;
         var parsed = [];
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
@@ -43,14 +44,27 @@
         while (buffer.length > 0) {
             nextWord = buffer.shift();
             if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) {
-                if (currentActivity && !newActivity) {
+                if (nextWord.match(/^\(/) && currentIndex > -1) {
+                    newActivity = true;
+                    if (nextWord.match(/\)$/)) {
+                        parsed[currentIndex].comment = nextWord.slice(1, -1);
+                    } else {
+                        currentComment = true;
+                        parsed[currentIndex].comment = nextWord.slice(1);
+                    }
+                } else if (nextWord.match(/\)$/) && currentComment) {
+                    currentComment = false;
+                    parsed[currentIndex].comment = parsed[currentIndex].comment + ' ' + nextWord.slice(0, -1);
+                } else if (currentIndex > -1 && currentComment) {
+                    parsed[currentIndex].comment = parsed[currentIndex].comment + ' ' + nextWord;
+                } else if (currentActivity && !newActivity) {
                     parsed[currentIndex].name = parsed[currentIndex].name + ' ' + nextWord;
                 } else {
                     currentIndex = currentIndex + 1;
                     currentActivity = nextWord;
-                    parsed[currentIndex] = {name: currentActivity};
+                    parsed[currentIndex] = {name: currentActivity, sets: []};
+                    newActivity = false;
                 }
-                newActivity = false;
             } else if (currentActivity) {
                 if (buffer.length > 1 && buffer[0].toLowerCase() === 'x') { //If the next word is 'x' and there's more after that
                     nextWord = nextWord + buffer.shift() + buffer.shift();
@@ -58,9 +72,6 @@
                     nextWord = nextWord + buffer.shift();
                 } else if (buffer.length > 0 && buffer[0].slice(0, 1).toLowerCase() === 'x') { // if the next word starts with x
                     nextWord = nextWord + buffer.shift();
-                }
-                if (!parsed[currentIndex].sets) {
-                    parsed[currentIndex].sets = [];
                 }
                 newActivity = true;
                 pr = false;
@@ -163,10 +174,14 @@
                         parsed[currentIndex].sets.push(setData);
                     }
                 }
-            } else if (line.length > 0 && ['Comment', 'Prop', 'Share'].indexOf(line) === -1 ) {
-                currentIndex = currentIndex + 1;
-                currentActivity = line;
-                parsed[currentIndex] = {name: currentActivity, sets: []};
+            } else if (['Comment', 'Prop', 'Share'].indexOf(line) === -1 ) {
+                if (line.length > 1 && lines[0].match(/[0-9]/)) {
+                    currentIndex = currentIndex + 1;
+                    currentActivity = line;
+                    parsed[currentIndex] = {name: currentActivity, sets: []};
+                } else {
+                    parsed[currentIndex].comment = line;
+                }
             }
         }
         return parsed;

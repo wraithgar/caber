@@ -12,7 +12,7 @@ will be interpreted as lbs
 ```javascript
 var caber = require('caber');
 
-var workout = caber.parse('Squat 135x5, 200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles');
+var workout = caber.parse('Squat 135x5, 200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles (No wind)');
 
 console.log('workout');
 ```
@@ -40,10 +40,14 @@ This would output
     "name": "Cycling",
     "sets": [
         { "time": "1:30:00", "distance": 15, "unit": "miles" }
-    ]
+    ],
+    "comment": "No wind"
   }
 ]
 ```
+
+As you can see in that example, comments after sets can be put in
+parenthesis to be found
 
 If a given entry is a PR, end it with an asterisk (\*) and it will be
 tagged as such
