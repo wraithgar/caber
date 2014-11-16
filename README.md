@@ -2,7 +2,6 @@
 
 String parsing library for logging workouts.
 
-
 ### Use
 
 Pass it a string and it will attempt to parse it into a standardized
@@ -21,25 +20,32 @@ console.log('workout');
 This would output
 
 ```json
-{
-    "Squat": [
+[
+  {
+    "name": "Squat",
+    "sets": [
         { "reps": 5, "weight": 135, "unit": "lb" },
         { "reps": 3, "weight": 200, "unit": "lb" },
-        { "reps": 4, "weight": 225, "unit": "lb" },
-    ],
-    "Bench Press": [
+        { "reps": 4, "weight": 225, "unit": "lb" }
+    ]
+  }, {
+    "name": "Bench Press",
+    "sets": [
         { "reps": 9, "weight": 100, "unit": "lb" },
         { "reps": 9, "weight": 100, "unit": "lb" },
         { "reps": 9, "weight": 100, "unit": "lb" },
         { "reps": 9, "weight": 100, "unit": "lb" }
-    ],
-    "Cycling": [
+    ]
+  }, {
+    "name": "Cycling",
+    "sets": [
         { "time": "1:30:00", "distance": 15, "unit": "miles" }
     ]
-}
+  }
+]
 ```
 
-If a given entry is a PR, end it with an astersk (\*) and it will be
+If a given entry is a PR, end it with an asterisk (\*) and it will be
 tagged as such
 
 ```javascript
@@ -48,12 +54,15 @@ console.log(workout);
 ```
 
 ```json
-{
-    "Deadlift": [
+[
+  {
+    "name": "Deadlift",
+    "sets": [
         {"reps": 5, "weight": 450, "unit": "lb"},
         {"reps": 1, "weight": 500, "unit": "lb", "pr": true}
     ]
-}
+  }
+]
 ```
 
 
@@ -72,24 +81,31 @@ console.log('workout');
 This would output
 
 ```json
-{
-     "Curls": [
-        { "weight": 15, "unit": 'lb', "reps": 10' },
-        { "weight": '15', "unit": 'lb', "reps": '10' },
-        { "weight": '15', "unit": 'lb', "reps": '10' },
-        { "weight": '15', "unit": 'lb', "reps": '10' },
-        { "weight": '15', "unit": 'lb', "reps": '10' }
-     ],
-    "Hammer Curls": [
-        { "weight": '135', "unit": 'lb', "reps": '10' },
-        { "weight": '135', "unit": 'lb', "reps": '10' },
-        { "weight": '135', "unit": 'lb', "reps": '10' },
-        { "reps": '10' }
-     ],
-    "DB Curls": [
-         { "weight": '25', "unit": 'lb', "reps": '10' },
-        { "weight": '25', "unit": 'lb', "reps": '10' },
-        { pr: true, "weight": '25', "unit": 'lb', "reps": '10' }
+[
+  {
+    "name": "Curls",
+    "sets": [
+        { "weight": 15, "unit": "lb", "reps": 10 },
+        { "weight": 15, "unit": "lb", "reps": 10 },
+        { "weight": 15, "unit": "lb", "reps": 10 },
+        { "weight": 15, "unit": "lb", "reps": 10 },
+        { "weight": 15, "unit": "lb", "reps": 10 }
+    ],
+  }, {
+    "name": "Hammer Curls",
+    "sets": [
+        { "weight": 135, "unit": "lb", "reps": 10 },
+        { "weight": 135, "unit": "lb", "reps": 10 },
+        { "weight": 135, "unit": "lb", "reps": 10 }
+        { "reps": 10 }
      ]
- }
+  }, {
+    "name": "DB Curls",
+    "sets": [
+        { "weight": 25, "unit": "lb", "reps": 10 },
+        { "weight": 25, "unit": "lb", "reps": 10 },
+        { "pr": true, "weight": 25, "unit": "lb", "reps": 10 }
+     ]
+  }
+]
 ```

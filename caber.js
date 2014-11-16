@@ -33,7 +33,8 @@
     //Main parser
     Caber.parse = function (data) {
         var set, sets, setData, buffer, nextWord, currentActivity, newActivity, activityInfo, pr;
-        var parsed = {};
+        var currentIndex = -1;
+        var parsed = [];
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
         }
@@ -41,11 +42,13 @@
 
         while (buffer.length > 0) {
             nextWord = buffer.shift();
-            if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) { //Number
+            if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) {
                 if (currentActivity && !newActivity) {
-                    currentActivity = currentActivity + ' ' + nextWord;
+                    parsed[currentIndex].name = parsed[currentIndex].name + ' ' + nextWord;
                 } else {
+                    currentIndex = currentIndex + 1;
                     currentActivity = nextWord;
+                    parsed[currentIndex] = {name: currentActivity};
                 }
                 newActivity = false;
             } else if (currentActivity) {
@@ -56,8 +59,8 @@
                 } else if (buffer.length > 0 && buffer[0].slice(0, 1).toLowerCase() === 'x') { // if the next word starts with x
                     nextWord = nextWord + buffer.shift();
                 }
-                if (!parsed[currentActivity]) {
-                    parsed[currentActivity] = [];
+                if (!parsed[currentIndex].sets) {
+                    parsed[currentIndex].sets = [];
                 }
                 newActivity = true;
                 pr = false;
@@ -107,10 +110,10 @@
                         setData.weight = Number(activityInfo[0]);
                         setData.reps = Number(activityInfo[1]);
                     }
-                    parsed[currentActivity].push(setData);
+                    parsed[currentIndex].sets.push(setData);
                 }
                 if (pr) {
-                    parsed[currentActivity][parsed[currentActivity].length -1].pr = true;
+                    parsed[currentIndex].sets[parsed[currentIndex].sets.length -1].pr = true;
                 }
             }
         }
@@ -120,7 +123,8 @@
     //Parse from copied fitocracy data
     Caber.fitocracy = function (data) {
         var lines, line, currentActivity, setData, match;
-        var parsed = {};
+        var currentIndex = -1;
+        var parsed = [];
         if (typeof data !== 'string') {
             throw new TypeError('Caber can only parse strings, tried parsing ' + typeof data);
         }
@@ -149,24 +153,23 @@
                     if (line.match(/assisted/)) {
                         setData.weight = setData.weight * -1;
                     }
-                    parsed[currentActivity].push(setData);
+                    parsed[currentIndex].sets.push(setData);
                 } else if (line.indexOf(':') > -1) { //Time/Distance
                     match = line.match(/([0-9:]+) \| ([0-9]+) (mi|km)/);
                     if (match) {
                         setData.unit = match[3];
                         setData.time = match[1];
                         setData.distance = Number(match[2]);
-                        parsed[currentActivity].push(setData);
+                        parsed[currentIndex].sets.push(setData);
                     }
                 }
             } else if (line.length > 0 && ['Comment', 'Prop', 'Share'].indexOf(line) === -1 ) {
+                currentIndex = currentIndex + 1;
                 currentActivity = line;
-                parsed[currentActivity] = [];
+                parsed[currentIndex] = {name: currentActivity, sets: []};
             }
         }
         return parsed;
     };
 
 }).call(this);
-
-//TODO Strip leading/trailing punctuation from activity name
