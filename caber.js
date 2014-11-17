@@ -143,7 +143,7 @@
 
         while (lines.length > 0) {
             line = lines.shift();
-            if (line.match(/tracked ?Workout ?for ?[0-9]+ ?pts/)) {
+            if (line.match(/tracked ?[\w ]\+ ?for ?[0-9]+ ?pts/)) {
                 //Header, ignore for now, use as title when we add title
             //Sets always end with a number in points, except for the last one, also check that they didn't copy the line after the workout
             } else if (line.match(/[0-9]+$/) || (lines.length === 0 && ['Comment', 'Prop', 'Share'].indexOf(line) === -1 )) {
@@ -173,6 +173,8 @@
                         setData.distance = Number(match[2]);
                         parsed[currentIndex].sets.push(setData);
                     }
+                } else if (parsed[currentIndex]) {
+                    parsed[currentIndex].comment = line;
                 }
             } else if (['Comment', 'Prop', 'Share'].indexOf(line) === -1 ) {
                 if (line.length > 1 && lines[0].match(/[0-9]/)) {

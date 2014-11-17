@@ -90,6 +90,10 @@ lab.experiment('Fitocracy parse', function () {
         Lab.expect(workout, 'parsed results').to.have.length(2);
         Lab.expect(workout[1].name, 'second entry name').to.equal('Barbell Bench Press');
         Lab.expect(workout[0].comment, 'first entry comment').to.equal('this is a comment');
+        fito = 'Gartracked Named Something for 737 ptsNov 14, 2014\nStiff Leg Barbell Good Morning\n225 lb x 5 reps 60\n275 lb x 5 reps 84\n315 lb x 1 reps (PR) 60\nThis was my back: ಠ_ಠ\nBarbell Squat\n225 lb x 3 reps 97\n275 lb x 3 reps 136\n315 lb x 3 reps 178\nLegs so tired. 9 So very tired.';
+        workout = caber.fitocracy(fito);
+        Lab.expect(workout[0].comment, 'first entry comment').to.equal('This was my back: ಠ_ಠ');
+        Lab.expect(workout[1].comment, 'second entry comment').to.equal('Legs so tired. 9 So very tired.');
         done();
     });
 });
