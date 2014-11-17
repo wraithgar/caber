@@ -43,7 +43,7 @@
 
         while (buffer.length > 0) {
             nextWord = buffer.shift();
-            if (nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) {
+            if (currentComment || nextWord.replace(/[^\w]+/g, '').replace(/[0-9Xx]+/g, '').length > 0) {
                 if (nextWord.match(/^\(/) && currentIndex > -1) {
                     newActivity = true;
                     if (nextWord.match(/\)$/)) {

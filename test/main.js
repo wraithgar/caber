@@ -142,6 +142,10 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout, 'parsed results').to.have.length(2);
         Lab.expect(workout[1].name, 'second entry name').to.equal('Bench Press');
         Lab.expect(workout[0].comment, 'first entry comment').to.equal('sore');
+        workout = caber.parse('Squat 135x5, 200x3 (comment w number 5 in it), Bench Press 123x10x3');
+        Lab.expect(workout, 'parsed results').to.have.length(2);
+        Lab.expect(workout[1].name, 'second entry name').to.equal('Bench Press');
+        Lab.expect(workout[0].comment, 'first entry comment').to.equal('comment w number 5 in it');
         done();
     });
 });
