@@ -85,7 +85,7 @@
                         pr = true;
                         nextWord = nextWord.slice(0, -1);
                     }
-                    activityInfo = nextWord.toLowerCase().replace(/[^0-9x:]+/g, '').split('x');
+                    activityInfo = nextWord.toLowerCase().replace(/[^0-9x:.]+/g, '').split('x');
                     sets = activityInfo[2] || 1;
                 }
                 for (set = 0; set < sets; set++) {
@@ -152,7 +152,7 @@
                     setData.pr = true;
                 }
                 if (line.match(/reps/)) {
-                    match = line.match(/([0-9]+) (lb|kg)/);
+                    match = line.match(/([0-9.]+) (lb|kg)/);
                     if (match) {
                         setData.weight = Number(match[1]);
                         setData.unit = match[2];

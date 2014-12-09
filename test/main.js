@@ -26,6 +26,13 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout[2].sets[0].distance, 'parsed cycling distance').to.equal(15);
         done();
     });
+
+    lab.test('Decimals', function (done) {
+        var workout = caber.parse('Curls 17.5x10');
+        Lab.expect(workout[0].sets[0].weight, 'parsed weight').to.equal(17.5);
+        done();
+    });
+
     lab.test('Newline separator', function (done) {
         var workout = caber.parse('Squat 135x5, 200x3\nBench Press 123x10x3');
         Lab.expect(workout, 'parsed results').to.have.length(2);
