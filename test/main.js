@@ -155,5 +155,13 @@ lab.experiment('Main Parse', function () {
         Lab.expect(workout[0].comment, 'first entry comment').to.equal('comment w number 5 in it');
         done();
     });
+
+    lab.test('Zero weight', function (done) {
+        var workout = caber.parse('Pull ups 0x5x5');
+        Lab.expect(workout[0].sets.length, 'parsed set count').to.equal(5);
+        Lab.expect(workout[0].sets[0].weight, 'parsed weight').to.equal(undefined);
+        Lab.expect(workout[0].sets[0].reps, 'parsed reps').to.equal(5);
+        done();
+    });
 });
 

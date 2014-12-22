@@ -120,6 +120,9 @@
                         setData.unit = 'lb';
                         setData.weight = Number(activityInfo[0]);
                         setData.reps = Number(activityInfo[1]);
+                        if (setData.weight === 0) {
+                            delete setData.weight;
+                        }
                     }
                     parsed[currentIndex].sets.push(setData);
                 }
@@ -163,6 +166,9 @@
                     }
                     if (line.match(/assisted/)) {
                         setData.weight = setData.weight * -1;
+                    }
+                    if (setData.weight === 0) {
+                        delete setData.weight;
                     }
                     parsed[currentIndex].sets.push(setData);
                 } else if (line.indexOf(':') > -1) { //Time/Distance
