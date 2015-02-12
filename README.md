@@ -14,7 +14,7 @@ var caber = require('caber');
 
 var workout = caber.parse('Squat 135x5, 200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles (No wind)');
 
-console.log('workout');
+console.log(workout);
 ```
 
 This would output
@@ -79,7 +79,7 @@ var caber = require('caber');
 var pasteFromFitocracy = 'Gartracked Workout for 1000ptsOct 9, 2014\nCurls\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\n15 lb x 10 reps 11\nHammer Curls\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135 lb x 10 reps 25\n135lb x 10 reps 25\nDB Curls\n25 lb x 10 reps 57\n25 lb x 10 reps 57\n25 lb x 10 reps (PR) 57';
 var workout = caber.fitocracy(pasteFromFitocracy);
 
-console.log('workout');
+console.log(workout);
 ```
 
 This would output
