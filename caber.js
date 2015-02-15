@@ -2,7 +2,7 @@
 // (c) 2014 Michael Garvin
 // Caber may be freely distributed under the MIT license.
 //
-(function () {
+;(function () {
     // Establish the root object, `window` in the browser, or `exports` on the server.
     var root = this;
 
