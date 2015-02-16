@@ -1,4 +1,3 @@
-/*jshint expr: true*/
 var Lab = require('lab');
 var Code = require('code');
 var lab = exports.lab = Lab.script();
@@ -7,7 +6,7 @@ var caber = require('../');
 lab.experiment('Invalid data', function () {
     lab.test('Empty string', function (done) {
         var workout = caber.parse('');
-        Code.expect(workout, 'parsed results').to.be.empty;
+        Code.expect(workout, 'parsed results').to.be.empty();
         done();
     });
 

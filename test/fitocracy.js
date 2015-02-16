@@ -1,4 +1,3 @@
-/*jshint expr: true*/
 var Lab = require('lab');
 var Code = require('code');
 var lab = exports.lab = Lab.script();
@@ -18,7 +17,7 @@ lab.experiment('Fitocracy parse', function () {
         Code.expect(workout[1].sets, 'second activity sets').to.have.length(4);
         Code.expect(workout[2].name, 'third activity name').to.equal('DB Curls');
         Code.expect(workout[2].sets, 'third activity sets').to.have.length(3);
-        Code.expect(workout[2].sets[2].pr, 'third db curls set pr').to.be.true;
+        Code.expect(workout[2].sets[2].pr, 'third db curls set pr').to.be.true();
         done();
     });
     lab.test('with time/distance', function (done) {
