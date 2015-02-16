@@ -8,6 +8,51 @@ Pass it a string and it will attempt to parse it into a standardized
 object for storing information about your workout.  By default weight
 will be interpreted as lbs
 
+Use `parse` to parse activities only, or use `workout` to have caber try
+to figure out a name and date for the workout. Date will be a (moment)[http://momentjs.com/]
+object.
+
+
+```javascript
+var caber = require('caber');
+
+var workout = caber.workout('Thursday Leg Day\nSquat 135x5, 200x3, 225x4.\nCycling 1:30:00 15 miles (No wind)');
+
+console.log(workout);
+```
+
+This would output
+
+```json
+{
+  "name": "Leg Day",
+  "date": "(This will be a moment object)",
+  "activities": [
+    {
+      "name": "Squat",
+      "sets": [
+          { "reps": 5, "weight": 135, "unit": "lb" },
+          { "reps": 3, "weight": 200, "unit": "lb" },
+          { "reps": 4, "weight": 225, "unit": "lb" }
+      ]
+    }, {
+      "name": "Bench Press",
+      "sets": [
+          { "reps": 9, "weight": 100, "unit": "lb" },
+          { "reps": 9, "weight": 100, "unit": "lb" },
+          { "reps": 9, "weight": 100, "unit": "lb" },
+          { "reps": 9, "weight": 100, "unit": "lb" }
+      ]
+    }, {
+      "name": "Cycling",
+      "sets": [
+          { "time": "1:30:00", "distance": 15, "unit": "miles" }
+      ],
+      "comment": "No wind"
+    }
+  ]
+}
+```
 
 ```javascript
 var caber = require('caber');
