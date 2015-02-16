@@ -9,7 +9,7 @@ object for storing information about your workout.  By default weight
 will be interpreted as lbs
 
 Use `parse` to parse activities only, or use `workout` to have caber try
-to figure out a name and date for the workout. Date will be a (moment)[http://momentjs.com/]
+to figure out a name and date for the workout. Date will be a [moment](http://momentjs.com/)
 object.
 
 
