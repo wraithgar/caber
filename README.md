@@ -57,7 +57,7 @@ This would output
 ```javascript
 var caber = require('caber');
 
-var workout = caber.parse('Squat 135x5, 200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles (No wind)');
+var workout = caber.parse('Squat 135x5, 200x3, 225x4.\nBench Press 100x9x4\nCycling 1:30:00 15 miles (No wind)');
 
 console.log(workout);
 ```

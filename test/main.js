@@ -6,7 +6,7 @@ var caber = require('../');
 lab.experiment('Main Parse', function () {
 
     lab.test('README example', function (done) {
-        var workout = caber.parse('Squat 135x5,  200x3, 225x4. Bench Press 100x9x4 Cycling 1:30:00 15 miles');
+        var workout = caber.parse('Squat 135x5,  200x3, 225x4.\nBench Press 100x9x4\nCycling 1:30:00 15 miles');
         Code.expect(workout).to.have.length(3);
         Code.expect(workout[0].name).to.equal('Squat');
         Code.expect(workout[0].sets).to.have.length(3);
@@ -42,7 +42,7 @@ lab.experiment('Main Parse', function () {
     });
 
     lab.test('Comma separator', function (done) {
-        var workout = caber.parse('Squat 135x5,200x3 Bench Press 123x10x3');
+        var workout = caber.parse('Squat 135x5,200x3\nBench Press 123x10x3');
         Code.expect(workout).to.have.length(2);
         Code.expect(workout[0].sets).to.have.length(2);
         Code.expect(workout[0].sets[0].weight).to.equal(135);
@@ -141,15 +141,15 @@ lab.experiment('Main Parse', function () {
     });
 
     lab.test('Comments', function (done) {
-        var workout = caber.parse('Squat 135x5, 200x3 (light leg day), Bench Press 123x10x3');
+        var workout = caber.parse('Squat 135x5, 200x3 (light leg day)\nBench Press 123x10x3');
         Code.expect(workout).to.have.length(2);
         Code.expect(workout[1].name).to.equal('Bench Press');
         Code.expect(workout[0].comment).to.equal('light leg day');
-        workout = caber.parse('Squat 135x5, 200x3 (sore), Bench Press 123x10x3');
+        workout = caber.parse('Squat 135x5, 200x3 (sore)\nBench Press 123x10x3');
         Code.expect(workout).to.have.length(2);
         Code.expect(workout[1].name).to.equal('Bench Press');
         Code.expect(workout[0].comment).to.equal('sore');
-        workout = caber.parse('Squat 135x5, 200x3 (comment w number 5 in it), Bench Press 123x10x3');
+        workout = caber.parse('Squat 135x5, 200x3 (comment w number 5 in it)\nBench Press 123x10x3');
         Code.expect(workout).to.have.length(2);
         Code.expect(workout[1].name).to.equal('Bench Press');
         Code.expect(workout[0].comment).to.equal('comment w number 5 in it');
@@ -191,14 +191,20 @@ lab.experiment('Main Parse', function () {
             done();
         });
         lab.test('30 min run following rep-only activity', function (done) {
-            var workout = caber.parse('pull up bar 5\n30 min run');
+            var workout = caber.parse('pull up 5\n30 min run');
             Code.expect(workout).to.have.length(2);
             Code.expect(workout[0].name).to.equal('pull up');
             Code.expect(workout[0].sets).to.have.length(1);
             Code.expect(workout[1].name).to.equal('run');
-            Code.expect(workout[0].sets[0].time).to.equal(3600);
+            Code.expect(workout[1].sets[0].time).to.equal(1800);
             done();
         });
+    });
+
+    lab.test('Long name', function (done) {
+        var workout = caber.parse('Pull up bar with knurls 5,5,5');
+        Code.expect(workout[0].name).to.equal('Pull up bar with knurls');
+        done();
     });
 });
 
