@@ -46,7 +46,7 @@ This would output
     }, {
       "name": "Cycling",
       "sets": [
-          { "time": "1:30:00", "distance": 15, "unit": "miles" }
+          { "time": 5400, "distance": 15, "unit": "miles" }
       ],
       "comment": "No wind"
     }
@@ -84,7 +84,7 @@ This would output
   }, {
     "name": "Cycling",
     "sets": [
-        { "time": "1:30:00", "distance": 15, "unit": "miles" }
+        { "time": 5400, "distance": 15, "unit": "miles" }
     ],
     "comment": "No wind"
   }
