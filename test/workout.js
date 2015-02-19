@@ -1,3 +1,5 @@
+'use strict';
+
 var Lab = require('lab');
 var Code = require('code');
 var moment = require('moment');
@@ -99,6 +101,12 @@ lab.experiment('Workout parse', function () {
         Code.expect(workout.activities).to.have.length(1);
         Code.expect(workout.activities[0].name).to.equal('Squat');
         workout = caber.workout('Run 30 min');
+        Code.expect(workout.name).to.be.undefined();
+        Code.expect(workout.date).to.be.undefined();
+        workout = caber.workout('Pull up 5,5,5');
+        Code.expect(workout.name).to.be.undefined();
+        Code.expect(workout.date).to.be.undefined();
+        workout = caber.workout('Pull up 5');
         Code.expect(workout.name).to.be.undefined();
         Code.expect(workout.date).to.be.undefined();
         done();
