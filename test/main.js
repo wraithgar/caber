@@ -210,4 +210,22 @@ lab.experiment('Main Parse', function () {
         Code.expect(activities[0].name).to.equal('Pull up bar with knurls');
         done();
     });
+
+    lab.test('no spaces with unit', function (done) {
+        var activities = caber.parse('Squats 5kgx5');
+        Code.expect(activities[0].name).to.equal('Squats');
+        Code.expect(activities[0].sets[0].reps).to.equal(5);
+        Code.expect(activities[0].sets[0].weight).to.equal(5);
+        Code.expect(activities[0].sets[0].unit).to.equal('kg');
+        done();
+    });
+
+    lab.test('weird spaces with unit', function (done) {
+        var activities = caber.parse('Squats 5 kgx5');
+        Code.expect(activities[0].name).to.equal('Squats');
+        Code.expect(activities[0].sets[0].reps).to.equal(5);
+        Code.expect(activities[0].sets[0].weight).to.equal(5);
+        Code.expect(activities[0].sets[0].unit).to.equal('kg');
+        done();
+    });
 });

@@ -4,7 +4,7 @@
   "description": "Workout log parser",
   "main": "caber.js",
   "scripts": {
-    "test": "make test"
+    "test": "lab -L"
   },
   "repository": {
     "type": "git",

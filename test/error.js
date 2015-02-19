@@ -1,3 +1,5 @@
+'use strict';
+
 var Lab = require('lab');
 var Code = require('code');
 var lab = exports.lab = Lab.script();
@@ -27,5 +29,3 @@ lab.experiment('Invalid data', function () {
     });
 
 });
-
-
