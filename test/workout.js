@@ -41,9 +41,9 @@ lab.experiment('Workout parse', function () {
     });
 
     lab.test('Weekday only', function (done) {
-        var workout = caber.workout('Thursday\nSquat 255x5x5');
+        var workout = caber.workout('Friday\nSquat 255x5x5');
         Code.expect(workout.name).to.be.undefined();
-        Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(moment().day('Thursday').format('MM-DD-YYYY'));
+        Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(moment().day('Friday').format('MM-DD-YYYY'));
         Code.expect(workout.activities).to.have.length(1);
         Code.expect(workout.activities[0].name).to.equal('Squat');
         done();
