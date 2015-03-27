@@ -161,4 +161,12 @@ lab.experiment('Workout parse', function () {
         Code.expect(workout.activities).to.have.length(0);
         done();
     });
+
+    lab.test('ISO-8601 date', function (done) {
+        var workout = caber.workout('2015-02-01');
+        Code.expect(workout.name).to.be.undefined();
+        Code.expect(workout.date.format('YYYY-MM-DD')).to.equal(moment('2015-02-01', 'YYYY-MM-DD').format('YYYY-MM-DD'));
+        Code.expect(workout.activities).to.have.length(0);
+        done();
+    });
 });
