@@ -1,6 +1,7 @@
 # caber
-
 String parsing library for logging workouts.
+
+[![Build Status](https://travis-ci.org/wraithgar/caber.svg?branch=master)](https://travis-ci.org/wraithgar/caber)
 
 ### Use
 
