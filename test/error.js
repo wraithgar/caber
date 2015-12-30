@@ -3,13 +3,13 @@
 var Lab = require('lab');
 var Code = require('code');
 var lab = exports.lab = Lab.script();
-var caber = require('../');
+var Caber = require('../');
 
 lab.experiment('Invalid data', function () {
 
   lab.test('Empty string', function (done) {
 
-    var workout = caber.parse('');
+    var workout = Caber.parse('');
     Code.expect(workout, 'parsed results').to.be.empty();
     done();
   });
@@ -18,19 +18,19 @@ lab.experiment('Invalid data', function () {
 
     Code.expect(function () {
 
-      caber.parse();
+      Caber.parse();
     }).to.throw(TypeError);
     Code.expect(function () {
 
-      caber.parse(5);
+      Caber.parse(5);
     }).to.throw(TypeError);
     Code.expect(function () {
 
-      caber.parse(undefined);
+      Caber.parse(undefined);
     }).to.throw(TypeError);
     Code.expect(function () {
 
-      caber.parse(null);
+      Caber.parse(null);
     }).to.throw(TypeError);
     done();
   });
