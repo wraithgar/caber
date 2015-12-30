@@ -1,6 +1,6 @@
 {
   "name": "caber",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "Workout log parser",
   "main": "caber.js",
   "scripts": {
