@@ -2,7 +2,7 @@
 
 var Lab = require('lab');
 var Code = require('code');
-var Moment = require('Moment');
+var Moment = require('moment');
 
 var lab = exports.lab = Lab.script();
 var Caber = require('../');
