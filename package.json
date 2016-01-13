@@ -33,7 +33,7 @@
     "lab": "^8.0.1"
   },
   "dependencies": {
-    "lodash.invoke": "^3.0.0",
+    "lodash.invoke": "^4.0.0",
     "lodash.union": "^3.0.0",
     "moment": "^2.11.0"
   }
