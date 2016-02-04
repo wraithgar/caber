@@ -9,8 +9,8 @@ var Caber = require('../');
 
 var realdow = function realdow (dow) {
 
-  var today = Moment();
   var day = Moment().day(dow);
+  var today = Moment();
   if (day > today) {
     day.subtract(1, 'week');
   }
