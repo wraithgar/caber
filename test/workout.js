@@ -7,7 +7,7 @@ var Moment = require('moment');
 var lab = exports.lab = Lab.script();
 var Caber = require('../');
 
-var realdow = function realdow (dow) {
+var realdow = function realdow(dow) {
 
   var day = Moment().day(dow);
   var today = Moment();
