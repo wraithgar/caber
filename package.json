@@ -27,7 +27,7 @@
   "devDependencies": {
     "code": "^2.1.0",
     "eslint": "^2.0.0",
-    "eslint-config-andyet": "^1.0.0",
+    "eslint-config-andyet": "^1.1.0",
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.1.2",
     "lab": "^8.0.1"
