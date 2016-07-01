@@ -2,6 +2,7 @@
 String parsing library for logging workouts.
 
 [![Build Status](https://travis-ci.org/wraithgar/caber.svg?branch=master)](https://travis-ci.org/wraithgar/caber)
+[![NSP Status](https://nodesecurity.io/orgs/wraithgar/projects/d7a06e6a-3544-4018-b28e-bdf72ec0a00c/badge)](https://nodesecurity.io/orgs/wraithgar/projects/d7a06e6a-3544-4018-b28e-bdf72ec0a00c)
 
 ### Use
 
