@@ -197,4 +197,12 @@ lab.experiment('Workout parse', function () {
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
+
+  lab.test('Incomplete log', function (done) {
+
+    //Shouldn't crash
+    var workout = Caber.workout('Leg day\n255x5');
+    Code.expect(workout).to.exist();
+    done();
+  });
 });
