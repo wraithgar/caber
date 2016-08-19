@@ -271,4 +271,12 @@ lab.experiment('Main Parse', function () {
     Code.expect(activities[0].sets[0].unit).to.equal('lb');
     done();
   });
+
+  lab.test('time unit on new line', function (done) {
+
+    var activities = Caber.parse('Running\n5 hours');
+    Code.expect(activities[0].name).to.equal('Running');
+    Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+    done();
+  });
 });
