@@ -261,4 +261,14 @@ lab.experiment('Main Parse', function () {
     Code.expect(activities[0].sets[0].unit).to.equal('lb');
     done();
   });
+
+  lab.test('negative numbers on new line', function (done) {
+
+    var activities = Caber.parse('Pull ups\n-55x5');
+    Code.expect(activities[0].name).to.equal('Pull ups');
+    Code.expect(activities[0].sets[0].reps).to.equal(5);
+    Code.expect(activities[0].sets[0].weight).to.equal(-55);
+    Code.expect(activities[0].sets[0].unit).to.equal('lb');
+    done();
+  });
 });
