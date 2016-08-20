@@ -24,6 +24,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Thursday Leg Day\nSquat 225x5x5\nBicycling 3:00');
     Code.expect(workout).to.include('name', 'date', 'activities');
     Code.expect(workout.name).to.equal('Leg Day');
+    Code.expect(workout.rawDate).to.equal('Thursday');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(2);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -36,6 +37,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('2/1/2015 Leg Day\nSquat 225x5x5\nBicycling 3:00');
     Code.expect(workout).to.include('name', 'date', 'activities');
     Code.expect(workout.name).to.equal('Leg Day');
+    Code.expect(workout.rawDate).to.equal('2/1/2015');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(2);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -48,6 +50,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Leg Day\nSquat 255x5x5');
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
 
@@ -58,6 +61,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('Friday\nSquat 255x5x5');
     Code.expect(workout.name).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.equal('Friday');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Friday').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -68,6 +72,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('2/1\nSquat 255x5x5');
     Code.expect(workout.name).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.equal('2/1');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2016', 'MM-DD-YYYY').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -77,6 +82,7 @@ lab.experiment('Workout parse', function () {
   lab.test('Weekday then name on two lines', function (done) {
 
     var workout = Caber.workout('Thursday\nLeg Day\nSquat 255x5x5');
+    Code.expect(workout.rawDate).to.be.equal('Thursday');
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
@@ -88,6 +94,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('2/1/2015\nLeg Day\nSquat 255x5x5');
     Code.expect(workout.name).to.equal('Leg Day');
+    Code.expect(workout.rawDate).to.be.equal('2/1/2015');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -98,6 +105,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('Thursday\nLeg Day\nSquat 255x5x5');
     Code.expect(workout.name).to.equal('Leg Day');
+    Code.expect(workout.rawDate).to.be.equal('Thursday');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -108,6 +116,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('2/1/2015\nLeg Day\nSquat 255x5x5');
     Code.expect(workout.name).to.equal('Leg Day');
+    Code.expect(workout.rawDate).to.be.equal('2/1/2015');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -119,17 +128,21 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Squat 255x5x5');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
     workout = Caber.workout('Run 30 min');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     workout = Caber.workout('Pull up 5,5,5');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     workout = Caber.workout('Pull up 5');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     done();
   });
 
@@ -137,6 +150,7 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('Squat 255x5x5\nBicycling 3:00');
     Code.expect(workout.name).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     Code.expect(workout.date).to.be.undefined();
     Code.expect(workout.activities).to.have.length(2);
     Code.expect(workout.activities[0].name).to.equal('Squat');
@@ -149,6 +163,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Leg day');
     Code.expect(workout.name).to.equal('Leg day');
     Code.expect(workout.date).to.be.undefined();
+    Code.expect(workout.rawDate).to.be.undefined();
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
@@ -158,6 +173,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Thursday');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
+    Code.expect(workout.rawDate).to.equal('Thursday');
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
@@ -167,6 +183,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('2/1/2015');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
+    Code.expect(workout.rawDate).to.equal('2/1/2015');
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
@@ -176,6 +193,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('Thursday Leg Day');
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
+    Code.expect(workout.rawDate).to.equal('Thursday');
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
@@ -185,6 +203,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('2/1/2015 Leg Day');
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
+    Code.expect(workout.rawDate).to.equal('2/1/2015');
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
@@ -194,6 +213,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('2015-02-01');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.date.format('YYYY-MM-DD')).to.equal(Moment('2015-02-01', 'YYYY-MM-DD').format('YYYY-MM-DD'));
+    Code.expect(workout.rawDate).to.equal('2015-02-01');
     Code.expect(workout.activities).to.have.length(0);
     done();
   });
