@@ -174,21 +174,6 @@ lab.experiment('Main Parse', function () {
     done();
   });
 
-  lab.test('Comment with a comma', function (done) {
-
-    var activities = Caber.parse('Squat 135x5, 200x3 (light leg day, still leg day)');
-    Code.expect(activities[0].comment).to.equal('light leg day, still leg day');
-    done();
-  });
-
-  //Not yet
-  //lab.test('Comment on a new line', function (done) {
-
-    //var activities = Caber.parse('Squat 135x5, 200x3 (light leg day, still leg day\nno wasted reps)');
-    //Code.expect(activities[0].comment).to.equal('light leg day, still leg day\nno wasted reps');
-    //done();
-  //});
-
   lab.test('Zero weight', function (done) {
 
     var activities = Caber.parse('Pull ups 0x5x5');
