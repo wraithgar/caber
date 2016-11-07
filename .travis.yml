@@ -12,9 +12,7 @@ notifications:
     on_start: false     # default: false
   email: false
 node_js:
-  - '4'
-before_install:
-  - npm i -g npm@^2.0.0
+  - '6'
 before_script:
   - npm prune
 branches:
