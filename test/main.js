@@ -13,13 +13,13 @@ lab.experiment('Main Parse', function () {
     Code.expect(activities).to.have.length(3);
     Code.expect(activities[0].name).to.equal('Squat');
     Code.expect(activities[0].sets).to.have.length(3);
-    Code.expect(activities[0].sets[0]).to.include('unit', 'weight', 'reps');
+    Code.expect(activities[0].sets[0]).to.include(['unit', 'weight', 'reps']);
     Code.expect(activities[0].sets[0].reps).to.equal(5);
     Code.expect(activities[0].sets[0].unit).to.equal('lb');
     Code.expect(activities[0].sets[0].weight).to.equal(135);
     Code.expect(activities[1].name).to.equal('Bench Press');
     Code.expect(activities[1].sets).to.have.length(4);
-    Code.expect(activities[1].sets[0]).to.include('unit', 'weight', 'reps');
+    Code.expect(activities[1].sets[0]).to.include(['unit', 'weight', 'reps']);
     Code.expect(activities[1].sets[0].reps).to.equal(9);
     Code.expect(activities[1].sets[0].weight).to.equal(100);
     Code.expect(activities[2].name).to.equal('Cycling');
