@@ -22,7 +22,7 @@ lab.experiment('Workout parse', function () {
   lab.test('README example', function (done) {
 
     var workout = Caber.workout('Thursday Leg Day\nSquat 225x5x5\nBicycling 3:00');
-    Code.expect(workout).to.include('name', 'date', 'activities');
+    Code.expect(workout).to.include(['name', 'date', 'activities']);
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.rawDate).to.equal('Thursday');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(realdow('Thursday').format('MM-DD-YYYY'));
@@ -35,7 +35,7 @@ lab.experiment('Workout parse', function () {
   lab.test('README example with date', function (done) {
 
     var workout = Caber.workout('2/1/2015 Leg Day\nSquat 225x5x5\nBicycling 3:00');
-    Code.expect(workout).to.include('name', 'date', 'activities');
+    Code.expect(workout).to.include(['name', 'date', 'activities']);
     Code.expect(workout.name).to.equal('Leg Day');
     Code.expect(workout.rawDate).to.equal('2/1/2015');
     Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2015', 'MM-DD-YYYY').format('MM-DD-YYYY'));
