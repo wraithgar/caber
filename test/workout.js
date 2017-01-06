@@ -73,7 +73,7 @@ lab.experiment('Workout parse', function () {
     var workout = Caber.workout('2/1\nSquat 255x5x5');
     Code.expect(workout.name).to.be.undefined();
     Code.expect(workout.rawDate).to.be.equal('2/1');
-    Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1-2016', 'MM-DD-YYYY').format('MM-DD-YYYY'));
+    Code.expect(workout.date.format('MM-DD-YYYY')).to.equal(Moment('2-1', 'MM-DD').format('MM-DD-YYYY'));
     Code.expect(workout.activities).to.have.length(1);
     Code.expect(workout.activities[0].name).to.equal('Squat');
     done();
