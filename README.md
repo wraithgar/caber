@@ -1,4 +1,6 @@
 # caber
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/wraithgar/caber.svg)](https://greenkeeper.io/)
 String parsing library for logging workouts.
 
 [![Build Status](https://travis-ci.org/wraithgar/caber.svg?branch=master)](https://travis-ci.org/wraithgar/caber)
