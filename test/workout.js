@@ -225,4 +225,11 @@ lab.experiment('Workout parse', function () {
     Code.expect(workout).to.exist();
     done();
   });
+
+  lab.test('Workout with numbers in the name', function (done) {
+
+    var workout = Caber.workout('531 Bench\nBench Press 135x1');
+    Code.expect(workout.name).to.equal('531 Bench');
+    done();
+  });
 });
