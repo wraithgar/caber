@@ -16,6 +16,9 @@ Use `parse` to parse activities only, or use `workout` to have caber try
 to figure out a name and date for the workout. Date will be a [moment](http://momentjs.com/)
 object.
 
+By default weights are in lb but you can pass 'kg' as a second parameter
+to `parse` to default to kg.
+
 
 ```javascript
 var caber = require('caber');

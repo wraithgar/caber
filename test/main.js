@@ -279,4 +279,35 @@ lab.experiment('Main Parse', function () {
     Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
     done();
   });
+
+  lab.test('defined units', function (done) {
+
+    var lbactivities = Caber.parse('Bench 135lb x 5');
+    var kgactivities = Caber.parse('Bench 135kg x 5');
+    Code.expect(lbactivities[0].name).to.equal('Bench');
+    Code.expect(lbactivities[0].sets[0].unit).to.equal('lb');
+    Code.expect(lbactivities[0].sets[0].weight).to.equal(135);
+    Code.expect(kgactivities[0].name).to.equal('Bench');
+    Code.expect(kgactivities[0].sets[0].unit).to.equal('kg');
+    Code.expect(kgactivities[0].sets[0].weight).to.equal(135);
+    done();
+  });
+
+  lab.test('default units', function (done) {
+
+    var activities = Caber.parse('Bench 135x5', 'kg');
+    Code.expect(activities[0].name).to.equal('Bench');
+    Code.expect(activities[0].sets[0].unit).to.equal('kg');
+    Code.expect(activities[0].sets[0].weight).to.equal(135);
+    done();
+  });
+
+  lab.test('invalid unit', function (done) {
+
+    Code.expect(function () {
+
+      Caber.parse('Bench 135x5', 'x');
+    }).to.throw(TypeError);
+    done();
+  });
 });
