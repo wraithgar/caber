@@ -204,6 +204,7 @@ lab.experiment('Main Parse', function () {
       Code.expect(activities[0].sets[0].time).to.equal(1800);
       done();
     });
+
     lab.test('1:00:00 run', function (done) {
 
       var activities = Caber.parse('1:00:00 run');
@@ -213,6 +214,16 @@ lab.experiment('Main Parse', function () {
       Code.expect(activities[0].sets[0].time).to.equal(3600);
       done();
     });
+
+    lab.test('Running 1:00:00 pr', function (done) {
+
+      var activities = Caber.parse('Running 1:00:00*');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(1 * 60 * 60);
+      Code.expect(activities[0].sets[0].pr).to.equal(true);
+      done();
+    });
+
     lab.test('30 min run following rep-only activity', function (done) {
 
       var activities = Caber.parse('pull up 5\n30 min run');
@@ -223,6 +234,81 @@ lab.experiment('Main Parse', function () {
       Code.expect(activities[1].sets[0].time).to.equal(1800);
       done();
     });
+
+    lab.test('time on new line', function (done) {
+
+      var activities = Caber.parse('Running\n5 hours');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+      done();
+    });
+
+    lab.test('time and distance', function (done) {
+
+      var activities = Caber.parse('Running 5 hours 1 mile');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+      Code.expect(activities[0].sets[0].distance).to.equal(1);
+      Code.expect(activities[0].sets[0].unit).to.equal('miles');
+      done();
+    });
+
+    lab.test('time:00 and distance', function (done) {
+
+      var activities = Caber.parse('Running 5:00:00 1 mile');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+      Code.expect(activities[0].sets[0].distance).to.equal(1);
+      Code.expect(activities[0].sets[0].unit).to.equal('miles');
+      done();
+    });
+
+    lab.test('distance and time', function (done) {
+
+      var activities = Caber.parse('Running 5 miles 1 hour');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(1 * 60 * 60);
+      Code.expect(activities[0].sets[0].distance).to.equal(5);
+      Code.expect(activities[0].sets[0].unit).to.equal('miles');
+      done();
+    });
+
+    lab.test('distance and time:00', function (done) {
+
+      var activities = Caber.parse('Running 5 miles 1:00:00');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(1 * 60 * 60);
+      Code.expect(activities[0].sets[0].distance).to.equal(5);
+      Code.expect(activities[0].sets[0].unit).to.equal('miles');
+      done();
+    });
+
+
+    lab.test('time first', function (done) {
+
+      var activities = Caber.parse('5 hour run');
+      Code.expect(activities[0].name).to.equal('run');
+      Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+      done();
+    });
+
+    lab.test('Running 5 hours pr', function (done) {
+
+      var activities = Caber.parse('Running 5 hours*');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
+      Code.expect(activities[0].sets[0].pr).to.equal(true);
+      done();
+    });
+
+    lab.test('multiple time units', function (done) {
+
+      var activities = Caber.parse('Running\n5 hours\n5 hours');
+      Code.expect(activities[0].name).to.equal('Running');
+      Code.expect(activities[0].sets.length).to.equal(2);
+      done();
+    });
+
   });
 
   lab.test('Long name', function (done) {
@@ -269,14 +355,6 @@ lab.experiment('Main Parse', function () {
     Code.expect(activities[0].sets[0].reps).to.equal(5);
     Code.expect(activities[0].sets[0].weight).to.equal(-55);
     Code.expect(activities[0].sets[0].unit).to.equal('lb');
-    done();
-  });
-
-  lab.test('time unit on new line', function (done) {
-
-    var activities = Caber.parse('Running\n5 hours');
-    Code.expect(activities[0].name).to.equal('Running');
-    Code.expect(activities[0].sets[0].time).to.equal(5 * 60 * 60);
     done();
   });
 

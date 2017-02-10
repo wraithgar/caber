@@ -17,6 +17,8 @@ var realdow = function realdow(dow) {
   return day;
 };
 
+var tomorrow = Moment().add(1, 'day');
+
 lab.experiment('Workout parse', function () {
 
   lab.test('README example', function (done) {
@@ -237,6 +239,28 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout('1/1\n531 Bench\nBench Press 135x1');
     Code.expect(workout.name).to.equal('531 Bench');
+    done();
+  });
+
+  lab.test('Tomorrow', function (done) {
+
+    var workout = Caber.workout(tomorrow.format('dddd') + '\nBench Press 135x1');
+    Code.expect(workout.date.format('YYYY-MM-DD')).to.equal(tomorrow.subtract(1, 'week').format('YYYY-MM-DD'));
+    done();
+  });
+
+  lab.test('date, name with numbers, activity, newline separated', function (done) {
+
+    var workout = Caber.workout('1/1\n531 Bench\nBench Press 135x1');
+    Code.expect(workout.name).to.equal('531 Bench');
+    done();
+  });
+
+  lab.test('name then date', function (done) {
+
+    var workout = Caber.workout('Bench\n1/1\nBench Press 135x1');
+    Code.expect(workout.name).to.equal('Bench');
+    Code.expect(workout.date.format('MM-DD')).to.equal('01-01');
     done();
   });
 });
