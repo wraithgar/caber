@@ -4,7 +4,7 @@
   "description": "Workout log parser",
   "main": "caber.js",
   "scripts": {
-    "test": "lab -L",
+    "test": "lab -a code -t 100 -L -v -e test",
     "lint": "eslint ."
   },
   "repository": {
