@@ -18,6 +18,7 @@ var realdow = function realdow(dow) {
 };
 
 var tomorrow = Moment().add(1, 'day');
+var yesterday = Moment().subtract(1, 'day');
 
 lab.experiment('Workout parse', function () {
 
@@ -246,6 +247,13 @@ lab.experiment('Workout parse', function () {
 
     var workout = Caber.workout(tomorrow.format('dddd') + '\nBench Press 135x1');
     Code.expect(workout.date.format('YYYY-MM-DD')).to.equal(tomorrow.subtract(1, 'week').format('YYYY-MM-DD'));
+    done();
+  });
+
+  lab.test('Yesterday', function (done) {
+
+    var workout = Caber.workout(yesterday.format('dddd') + '\nBench Press 135x1');
+    Code.expect(workout.date.format('YYYY-MM-DD')).to.equal(yesterday.format('YYYY-MM-DD'));
     done();
   });
 
