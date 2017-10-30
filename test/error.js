@@ -7,14 +7,13 @@ var Caber = require('../');
 
 lab.experiment('Invalid data', function () {
 
-  lab.test('Empty string', function (done) {
+  lab.test('Empty string', function () {
 
     var workout = Caber.parse('');
     Code.expect(workout, 'parsed results').to.be.empty();
-    done();
   });
 
-  lab.test('Non strings', function (done) {
+  lab.test('Non strings', function () {
 
     Code.expect(function () {
 
@@ -32,7 +31,6 @@ lab.experiment('Invalid data', function () {
 
       Caber.parse(null);
     }).to.throw(TypeError);
-    done();
   });
 
 });
