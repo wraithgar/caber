@@ -28,11 +28,11 @@
     "code": "^4.0.0",
     "eslint": "^4.1.0",
     "eslint-config-andyet": "^2.0.0",
-    "eslint-plugin-hapi": "^4.0.0",
+    "eslint-plugin-hapi": "^4.1.0",
     "git-validate": "^2.1.4",
     "lab": "^15.1.1"
   },
   "dependencies": {
-    "moment": "^2.11.2"
+    "moment": "^2.19.1"
   }
 }
