@@ -26,13 +26,13 @@
   "license": "MIT",
   "devDependencies": {
     "code": "^5.1.0",
-    "eslint": "^4.1.0",
+    "eslint": "^4.13.0",
     "eslint-config-andyet": "^2.0.0",
     "eslint-plugin-hapi": "^4.1.0",
     "git-validate": "^2.1.4",
-    "lab": "^15.1.1"
+    "lab": "^15.1.2"
   },
   "dependencies": {
-    "moment": "^2.19.1"
+    "moment": "^2.19.4"
   }
 }
