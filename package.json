@@ -31,7 +31,7 @@
     "eslint-plugin-hapi": "^4.1.0",
     "git-validate": "^2.1.4",
     "greenkeeper-lockfile": "^1.15.1",
-    "lab": "^15.4.1"
+    "lab": "^16.1.0"
   },
   "dependencies": {
     "moment": "^2.19.4"
