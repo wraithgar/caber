@@ -1,13 +1,14 @@
 sudo: false
 language: node_js
-cache:
-  directories:
-    - node_modules
 notifications:
   email: false
 node_js:
-  - '8'
   - '10'
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+install:
+  - npm install
+before_install:
+  - npm i -g greenkeeper-lockfile
+before_script:
+  - greenkeeper-lockfile-update
+after_script:
+  - greenkeeper-lockfile-upload
