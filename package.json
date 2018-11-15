@@ -4,7 +4,7 @@
   "description": "Workout log parser",
   "main": "caber.js",
   "scripts": {
-    "test": "lab -a code -t 100 -L -v -e test",
+    "test": "lab -a code -L -v -e test",
     "lint": "eslint ."
   },
   "repository": {
@@ -30,7 +30,7 @@
     "eslint-config-andyet": "^2.0.0",
     "eslint-plugin-hapi": "^4.1.0",
     "git-validate": "^2.1.4",
-    "lab": "^17.0.0"
+    "lab": "^18.0.0"
   },
   "dependencies": {
     "moment": "^2.19.4"
