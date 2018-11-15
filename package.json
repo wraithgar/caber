@@ -25,14 +25,14 @@
   "author": "Gar <gar+code@danger.computer>",
   "license": "MIT",
   "devDependencies": {
-    "code": "^5.2.0",
-    "eslint": "^5.0.0",
+    "code": "^5.2.3",
+    "eslint": "^5.9.0",
     "eslint-config-andyet": "^2.0.0",
     "eslint-plugin-hapi": "^4.1.0",
-    "git-validate": "^2.1.4",
+    "git-validate": "^2.2.4",
     "lab": "^18.0.0"
   },
   "dependencies": {
-    "moment": "^2.19.4"
+    "moment": "^2.22.2"
   }
 }
