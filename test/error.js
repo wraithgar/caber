@@ -1,7 +1,7 @@
 'use strict';
 
-var Lab = require('lab');
-var Code = require('code');
+var Lab = require('@hapi/lab');
+var Code = require('@hapi/code');
 var lab = exports.lab = Lab.script();
 var Caber = require('../');
 
