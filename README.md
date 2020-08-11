@@ -29,8 +29,8 @@ This would output
 ```json
 {
   "name": "Leg Day",
-  "date": "(This will be a moment object)",
-  "rawDate": "(This will be what the string that generated the date was)",
+  "date": "[This will be a moment object]",
+  "rawDate": "[This will be what the string that generated the date was]",
   "activities": [
     {
       "name": "Squat",
