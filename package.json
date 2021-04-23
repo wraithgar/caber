@@ -4,15 +4,20 @@
   "description": "Workout log parser",
   "main": "caber.js",
   "scripts": {
-    "test": "lab -a @hapi/code -L -v -e test",
-    "lint": "eslint ."
+    "test": "lab -a @hapi/code -v -e test",
+    "posttest": "npm run lint",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
+  "files": [
+    "caber.js",
+    "lib/"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:wraithgar/caber.git"
   },
   "pre-commit": [
-    "lint",
     "test"
   ],
   "keywords": [
@@ -27,10 +32,8 @@
   "devDependencies": {
     "@hapi/code": "^8.0.1",
     "@hapi/lab": "^24.0.0",
-    "eslint": "^7.0.0",
-    "eslint-config-andyet": "^2.0.0",
-    "eslint-plugin-hapi": "^4.1.0",
-    "git-validate": "^2.2.4"
+    "git-validate": "^2.2.4",
+    "standard": "^16.0.3"
   },
   "dependencies": {
     "moment": "^2.24.0"
